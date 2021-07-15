@@ -1,8 +1,18 @@
 
-<h1>Hello World</h1>
-<button (click)="createTodo()">Create</button>
+<h1>Todo App</h1>
+<label for="name">Name</label>
+<input type="text" #name name.value="">
+<label for="todo">Todo</label>
+<input type="text" #todoitem todoitem.value="">
+<button (click)="createTodo(name.value, todoitem.value)">Create</button>
+<br>
+<label for="search">Search</label>
+<input type="text" #search search.value="">
+<button (click)="searchTodos(search.value)">Search</button>
+<h2>Items: {{count}}</h2>
 <ul *ngFor="let todo of todos">
   <li>{{todo.name}}</li>
   <li>{{todo.description}}</li>
+  <button (click)="deleteTodo(todo.id)">Delete</button>
 </ul>
 <router-outlet></router-outlet>

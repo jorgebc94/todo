@@ -10,22 +10,40 @@ import { Todo } from '../models';
 export class AppComponent {
   title = 'todo-app';
   todos = [];
+  count: number;
 
   async ngOnInit(){
     this.getTodos();
   }
 
-  async createTodo(){
+  async createTodo(name:string, todoitem:string){
     await DataStore.save(
       new Todo({
-      "name": "Lorem ipsum dolor sit amet",
-      "description": "Lorem ipsum dolor sit amet"
+      "name": name,
+      "description": todoitem
       })
     );
+
+    this.getTodos();
+  }
+
+  async deleteTodo(id: string){
+    console.log(id);
+    const todoDelete = await DataStore.query(Todo, id);
+    DataStore.delete(todoDelete);
+
+    this.getTodos();
   }
 
   async getTodos(){
     this.todos = await DataStore.query(Todo);
+    this.count = this.todos.length;
+  }
+
+  async searchTodos(search: string){
+    const searchTodos = await DataStore.query(Todo, t => t.description("contains", search));
+    this.todos = searchTodos;
+    this.count = this.todos.length;
   }
 
 }
