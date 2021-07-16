@@ -11,9 +11,11 @@ export class AppComponent {
   title = 'todo-app';
   todos = [];
   count: number;
+  keys = [];
 
   async ngOnInit(){
     this.getTodos();
+    
   }
 
   async createTodo(name:string, todoitem:string){
@@ -37,6 +39,7 @@ export class AppComponent {
 
   async getTodos(){
     this.todos = await DataStore.query(Todo);
+    this.keys = Object.keys(this.todos[0]);
     this.count = this.todos.length;
   }
 
